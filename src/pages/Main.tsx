@@ -7,6 +7,8 @@ const Main = () => {
       <ServerMeter seedValue={40} />
       <ServerMeter seedValue={45} />
       <ServerMeter seedValue={50} />
+      <ServerMeter seedValue={55} />
+
     </div>
   );
 };
