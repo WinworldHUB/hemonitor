@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
+import { useEffect } from "react";
 import "./App.css";
 import ReactSpeedometer from "react-d3-speedometer";
 import useApi from "./hooks/useApi";
