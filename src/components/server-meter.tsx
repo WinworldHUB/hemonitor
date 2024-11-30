@@ -2,6 +2,7 @@ import { FC, useEffect } from "react";
 import useApi from "../hooks/useApi";
 import ReactSpeedometer from "react-d3-speedometer";
 
+
 interface ServerMeterProps {
   seedValue: number;
 }
@@ -20,15 +21,18 @@ const ServerMeter: FC<ServerMeterProps> = ({ seedValue }) => {
   }, []);
 
   return (
-    <ReactSpeedometer
-      value={data?.value ?? seedValue}
-      minValue={0}
-      maxValue={100}
-      segments={3}
-      customSegmentStops={[0, 40, 60, 100]}
-      segmentColors={["#a3be8c", "#ebcb8b", "#bf616a"]}
-      needleColor={"#6046f2"}
-    />
+    <div>
+      <ReactSpeedometer
+        value={data?.value ?? seedValue}
+        minValue={0}
+        maxValue={100}
+        segments={5}
+        customSegmentStops={[0, 20, 40, 60, 80, 100]}
+        segmentColors={["#4caf50", "#9ff089", "#fdd835", "#ffb300", "#f44336"]}
+        needleColor={"#6046f2"}
+        height={200}
+      />
+    </div>
   );
 };
 
