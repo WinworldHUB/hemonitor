@@ -31,6 +31,8 @@ const ServerMeter: FC<ServerMeterProps> = ({ seedValue }) => {
         segmentColors={["#4caf50", "#9ff089", "#fdd835", "#ffb300", "#f44336"]}
         needleColor={"#6046f2"}
         height={200}
+        width={300}
+        ringWidth={20}
       />
     </div>
   );
