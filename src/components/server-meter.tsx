@@ -16,6 +16,7 @@ const ServerMeter: FC<ServerMeterProps> = ({ seedValue }) => {
 
   useEffect(() => {
     window.setInterval(fetchData, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
