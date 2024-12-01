@@ -54,7 +54,8 @@ const Main = () => {
         ];
       });
     setInterval(getSensorData, 1000);
-  }, [fetchSensorData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Map server data to TimeLineData format
 
