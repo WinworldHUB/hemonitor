@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ServerMeter from "../components/server-meter";
 import { Col, Container, Row } from "react-bootstrap";
 import LineChart, { TimeLineData } from "../components/line-chart";
@@ -27,27 +27,30 @@ const Main = () => {
   // Flatten the rows to extract all seed values
   const seedValues = rows.flat().map((server) => server.seed);
   const { data: sensorsData, fetchSensorData } = useSensors(seedValues);
-  
-  const [timeLineData, setTimeLineData] = useState<TimeLineData[]>([]);
 
-  console.log("serverData", sensorsData);
-  
-  const getSensorData = () => { 
-    fetchSensorData();
-    const seriesLength = timeLineData.length;
-    const series = seriesLength < THRESHOLD ? timeLineData : timeLineData.splice(seriesLength - THRESHOLD, seriesLength);
+  const timeLineData = useRef<TimeLineData[]>([]);
 
-    setTimeLineData([...series, {
-      label: DateTime.now().toFormat("hh:mm:ss"),
-      server1Value: sensorsData[0],
-      server2Value: sensorsData[1],
-      server3Value: sensorsData[2],
-      server4Value: sensorsData[3],
-    }]);
-  }
+  const getSensorData = () =>
+    fetchSensorData().then((values) => {
+      const seriesLength = timeLineData.current.length;
+      const series =
+        seriesLength < THRESHOLD
+          ? timeLineData.current
+          : timeLineData.current.splice(seriesLength - THRESHOLD, seriesLength);
 
+      timeLineData.current = [
+        ...series,
+        {
+          label: DateTime.now().toFormat("hh:mm:ss"),
+          server1Value: values[0],
+          server2Value: values[1],
+          server3Value: values[2],
+          server4Value: values[3],
+        },
+      ];
+    });
 
-  useEffect(() => { 
+  useEffect(() => {
     setInterval(getSensorData, 1000);
   }, []);
 
@@ -58,7 +61,6 @@ const Main = () => {
       {rows.map((row, rowIndex) => (
         <Row key={rowIndex} className="justify-content-center">
           {row.map((server, colIndex) => {
-
             return (
               <Col
                 key={colIndex}
@@ -85,7 +87,7 @@ const Main = () => {
       ))}
       <Row>
         <Col>
-          <LineChart data={timeLineData} />
+          <LineChart data={timeLineData.current} />
         </Col>
       </Row>
     </Container>
