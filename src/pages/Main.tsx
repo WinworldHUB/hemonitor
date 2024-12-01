@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import ServerMeter from "../components/server-meter";
 import { Col, Container, Row } from "react-bootstrap";
 import LineChart, { TimeLineData } from "../components/line-chart";
@@ -48,11 +48,11 @@ const Main = () => {
           server4Value: values[3],
         },
       ];
+
+      setTimeout(getSensorData, 1000);
     });
 
-  useEffect(() => {
-    setInterval(getSensorData, 1000);
-  }, []);
+  setTimeout(getSensorData, 1000);
 
   // Map server data to TimeLineData format
 
