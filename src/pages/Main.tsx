@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ServerMeter from "../components/server-meter";
 import { Col, Container, Row } from "react-bootstrap";
 import LineChart, { TimeLineData } from "../components/line-chart";

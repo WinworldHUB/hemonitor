@@ -1,6 +1,6 @@
 "use client";
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, defaults } from "chart.js/auto";
+import { defaults } from "chart.js/auto";
 import { FC } from "react";
 
 defaults.maintainAspectRatio = false;
