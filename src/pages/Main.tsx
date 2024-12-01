@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import ServerMeter from "../components/server-meter";
 import { Col, Container, Row } from "react-bootstrap";
 import LineChart, { TimeLineData } from "../components/line-chart";
@@ -30,29 +30,31 @@ const Main = () => {
 
   const timeLineData = useRef<TimeLineData[]>([]);
 
-  const getSensorData = () =>
-    fetchSensorData().then((values) => {
-      const seriesLength = timeLineData.current.length;
-      const series =
-        seriesLength < THRESHOLD
-          ? timeLineData.current
-          : timeLineData.current.splice(seriesLength - THRESHOLD, seriesLength);
+  useEffect(() => {
+    const getSensorData = () =>
+      fetchSensorData().then((values) => {
+        const seriesLength = timeLineData.current.length;
+        const series =
+          seriesLength < THRESHOLD
+            ? timeLineData.current
+            : timeLineData.current.splice(
+                seriesLength - THRESHOLD,
+                seriesLength
+              );
 
-      timeLineData.current = [
-        ...series,
-        {
-          label: DateTime.now().toFormat("hh:mm:ss"),
-          server1Value: values[0],
-          server2Value: values[1],
-          server3Value: values[2],
-          server4Value: values[3],
-        },
-      ];
-
-      setTimeout(getSensorData, 1000);
-    });
-
-  setTimeout(getSensorData, 1000);
+        timeLineData.current = [
+          ...series,
+          {
+            label: DateTime.now().toFormat("hh:mm:ss"),
+            server1Value: values[0],
+            server2Value: values[1],
+            server3Value: values[2],
+            server4Value: values[3],
+          },
+        ];
+      });
+    setInterval(getSensorData, 1000);
+  }, [fetchSensorData]);
 
   // Map server data to TimeLineData format
 
